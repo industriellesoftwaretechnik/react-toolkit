@@ -1,5 +1,8 @@
 {
-  "name": "@istec/react-toolkit",
+  "name": "@industriellesoftwaretechnik/react-toolkit",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.mjs",
