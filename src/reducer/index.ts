@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch, useReducer } from 'react'
 
 export type PayloadAction<P, T extends string = string> = { payload: P; type: T }
@@ -45,8 +46,7 @@ export type Reducer<
   State = any,
   CaseReducers extends AnyCaseReducers<State> = AnyCaseReducers<State>,
 > = {
-  useSelector: <T>(selector: (s: State) => T) => T
-  useDispatch: () => Dispatch<ActionsUnion<State, CaseReducers>>
+  useReducer: () => [State, Dispatch<ActionsUnion<State, CaseReducers>>]
   actions: ReducerActions<CaseReducers>
 }
 
@@ -63,12 +63,11 @@ export const createReducer = <State, Reducers extends AnyCaseReducers<State>>(
     return prev
   }, {})
 
-  const [state, dispatch] = useReducer(reducer, opts.initialState)
-  const useSelector = <T>(selector: (s: State) => T) => selector(state)
-  const useDispatch = () => dispatch
   return {
-    useSelector,
-    useDispatch: useDispatch as any,
+    useReducer: () => {
+      const [state, dispatch] = useReducer(reducer, opts.initialState)
+      return [state, dispatch] as any
+    },
     actions: actionCreators as any,
   }
 }

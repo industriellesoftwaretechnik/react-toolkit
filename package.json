@@ -1,12 +1,10 @@
 {
   "name": "@industriellesoftwaretechnik/react-toolkit",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts",
     "start": "npm run build -- --watch",
@@ -18,7 +16,7 @@
   "exports": {
     "default": "./dist/index.cjs",
     "require": "./dist/index.cjs",
-    "import": "./dist/index.mjs",
+    "import": "./dist/index.js",
     "node": "./dist/index.cjs"
   },
   "type": "module",
