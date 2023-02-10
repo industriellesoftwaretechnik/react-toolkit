@@ -2,6 +2,9 @@ import { createContext, ReactNode, useContext, useEffect } from 'react'
 
 import { AnyCaseReducers, createReducer, ReducerOptions } from '../reducer'
 
+import { useMemoCompare } from '../utils/useMemoCompare'
+import { shallowEquals } from '../utils/equals'
+
 export const createReducerContext = <State, Reducers extends AnyCaseReducers<State>>(
   opts: ReducerOptions<State, Reducers>,
 ) => {
@@ -38,9 +41,13 @@ export const createReducerContext = <State, Reducers extends AnyCaseReducers<Sta
   }
 
   type StateSelector<R> = (s: State) => R
-  const useSelector = <R,>(selector: StateSelector<R>) => {
-    const value = useValue()
-    return selector(value)
+  const useSelector = <R,>(selector: StateSelector<R>, shallowEquals?: boolean) => {
+    const value = useValue();
+    return useMemoCompare({
+      value,
+      selector,
+      compare: shallowEquals ? shallowEquals : undefined 
+    });
   }
 
   return {
